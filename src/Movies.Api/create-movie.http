@@ -1,0 +1,31 @@
+### Create Movie
+POST http://localhost:5032/api/movies/b7422927-4a74-4be7-b227-6702db424230
+Content-Type: application/json
+
+{
+  "title": "Inception 2",
+  "yearOfRelease": 2013,
+  "genre": ["Action", "Sci-Fi"]
+}
+
+### Get All Movies
+GET http://localhost:5032/api/movies
+Content-Type: application/json
+
+### Get Movie by ID
+GET http://localhost:5032/api/movies/b7422927-4a74-4be7-b227-6702db424230
+Content-Type: application/json
+
+### Update Movie
+PUT http://localhost:5032/api/movies/b7422927-4a74-4be7-b227-6702db424230
+Content-Type: application/json
+
+{
+  "title": "Inception 2 Updated",
+  "yearOfRelease": 2014,
+  "genre": ["Action", "Sci-Fi", "Thriller"]
+}
+
+### Delete Movie
+DELETE http://localhost:5032/api/movies/b7422927-4a74-4be7-b227-6702db424230
+Content-Type: application/json
