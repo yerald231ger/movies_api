@@ -11,7 +11,7 @@ public static class UpdateMoviesEndpoint
                 async ([FromRoute] Guid id, [FromBody] UpdateMovieRequest updateMovie, IMovieService repository, CancellationToken cancellationToken) =>
                 {
                     var movie = updateMovie.ToMovie(id);
-                    var result = await repository.UpdateAsync(movie);
+                    var result = await repository.UpdateAsync(movie, cancellationToken);
                     return result != null
                         ? Results.Ok(movie.ToResponse())
                         : Results.NotFound();

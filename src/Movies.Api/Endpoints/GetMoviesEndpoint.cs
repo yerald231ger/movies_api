@@ -9,8 +9,8 @@ public static class GetMoviesEndpoint
         app.MapGet(MoviesRoutes.GetById, async ([FromRoute] string idOrSlug, IMovieService repository, CancellationToken cancellationToken) =>
             {
                 var movie = Guid.TryParse(idOrSlug, out var id)
-                    ? await repository.GetByIdAsync(id)
-                    : await repository.GetBySlugAsync(idOrSlug);
+                    ? await repository.GetByIdAsync(id, cancellationToken)
+                    : await repository.GetBySlugAsync(idOrSlug, cancellationToken);
                 return movie is null ? Results.NotFound() : Results.Ok(movie.ToResponse());
             })
             .WithName("GetMovie")
@@ -19,7 +19,7 @@ public static class GetMoviesEndpoint
 
         app.MapGet(MoviesRoutes.GetAll, async (IMovieService repository, CancellationToken cancellationToken) =>
             {
-                var movies = await repository.GetAllAsync();
+                var movies = await repository.GetAllAsync(cancellationToken);
                 return Results.Ok(movies.ToResponse());
             })
             .WithName("GetMovies")

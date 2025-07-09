@@ -8,11 +8,11 @@ public static class DeleteMoviesEndpoint
     {
         app.MapDelete(MoviesRoutes.Delete, async (Guid id, IMovieService repository, CancellationToken cancellationToken) =>
             {
-                var movie = await repository.GetByIdAsync(id);
+                var movie = await repository.GetByIdAsync(id, cancellationToken);
                 if (movie is null)
                     return Results.NotFound();
 
-                await repository.DeleteAsync(movie.Id);
+                await repository.DeleteAsync(movie.Id, cancellationToken);
                 return Results.NoContent();
             })
             .WithName("DeleteMovie")

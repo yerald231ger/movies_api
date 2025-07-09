@@ -10,7 +10,7 @@ public static class CreateMoviesEndpoint
                 async ([FromRoute] Guid id, [FromBody] CreateMovieRequest createMovie, IMovieService repository, CancellationToken cancellationToken) =>
                 {
                     var movie = createMovie.ToMovie(id);
-                    var result = await repository.CreateAsync(movie);
+                    var result = await repository.CreateAsync(movie, cancellationToken);
                     return result
                         ? Results.CreatedAtRoute("GetMovie", new { idOrSlug = movie.Id }, movie.ToResponse())
                         : Results.BadRequest();
