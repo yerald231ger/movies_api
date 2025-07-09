@@ -1,0 +1,26 @@
+﻿name: movies-microservice
+services:
+  movies.api:
+    image: movies.api
+    build:
+      context: .
+      dockerfile: Movies.Api/Dockerfile
+    ports:
+      - "9000:8080"
+      - "9060:8081"
+
+  movies.db:
+    image: postgres
+    container_name: movies.db
+    environment:
+      - POSTGRES_USER=movies.db.user
+      - POSTGRES_PASSWORD=movies.db.password
+      - POSTGRES_DB=MoviesDb
+    restart: always
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_movies:/var/lib/postgresql/data
+
+volumes:
+  postgres_movies:
