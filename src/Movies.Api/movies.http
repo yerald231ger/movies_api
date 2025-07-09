@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
   "title": "Inception 2",
-  "yearOfRelease": 2013,
-  "genre": ["Action", "Sci-Fi"]
+  "yearOfRelease": 2070,
+  "genres": ["Action", "Sci-Fi"]
 }
 
 ### Get All Movies
@@ -15,6 +15,9 @@ Content-Type: application/json
 ### Get Movie by ID
 GET http://localhost:5032/api/movies/b7422927-4a74-4be7-b227-6702db424230
 Content-Type: application/json
+
+### Get Movies by Slug
+GET http://localhost:5032/api/movies/inception-2-2013
 
 ### Update Movie
 PUT http://localhost:5032/api/movies/b7422927-4a74-4be7-b227-6702db424230

@@ -1,19 +1,23 @@
+using Movies.Application.Services;
+
 namespace Movies.Api.Endpoints;
 
 public static class GetMoviesEndpoint
 {
     public static void MapGetMovie(this IEndpointRouteBuilder app)
     {
-        app.MapGet(MoviesRoutes.GetById, async (Guid id, IMovieRepository repository) =>
+        app.MapGet(MoviesRoutes.GetById, async ([FromRoute] string idOrSlug, IMovieService repository, CancellationToken cancellationToken) =>
             {
-                var movie = await repository.GetByIdAsync(id);
+                var movie = Guid.TryParse(idOrSlug, out var id)
+                    ? await repository.GetByIdAsync(id)
+                    : await repository.GetBySlugAsync(idOrSlug);
                 return movie is null ? Results.NotFound() : Results.Ok(movie.ToResponse());
             })
             .WithName("GetMovie")
             .Produces<Movie>()
             .Produces(StatusCodes.Status404NotFound);
 
-        app.MapGet(MoviesRoutes.GetAll, async (IMovieRepository repository) =>
+        app.MapGet(MoviesRoutes.GetAll, async (IMovieService repository, CancellationToken cancellationToken) =>
             {
                 var movies = await repository.GetAllAsync();
                 return Results.Ok(movies.ToResponse());

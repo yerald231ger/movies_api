@@ -1,14 +1,13 @@
 using Movies.Application.Models;
 
-namespace Movies.Application.Repositories;
+namespace Movies.Application.Services;
 
-public interface IMovieRepository
+public interface IMovieService
 {
     Task<bool> CreateAsync(Movie movie);
     Task<Movie?> GetByIdAsync(Guid id);
     Task<Movie?> GetBySlugAsync(string slug);
     Task<IEnumerable<Movie>> GetAllAsync();
-    Task<bool> UpdateAsync(Movie movie);
+    Task<Movie?> UpdateAsync(Movie movie);
     Task<bool> DeleteAsync(Guid id);
-    Task<bool> ExistsAsync(Guid id);
 }

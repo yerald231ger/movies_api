@@ -6,6 +6,7 @@ internal static class MoviesRoutes
     public const string Base = $"{Api}/movies";
     public const string GetAll = Base;
     public const string Create = $"{Base}/{{id:guid}}";
-    public const string GetById = $"{Base}/{{id:guid}}";
+    public const string GetById = $"{Base}/{{idOrSlug}}";
     public const string Update = $"{Base}/{{id:guid}}";
+    public const string Delete = $"{Base}/{{id:guid}}";
 }

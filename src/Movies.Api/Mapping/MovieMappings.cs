@@ -7,24 +7,22 @@ public static class MovieMappings
 {
     public static Movie ToMovie(this CreateMovieRequest request, Guid id)
     {
-        return new Movie
-        {
-            Id = id,
-            Title = request.Title,
-            YearOfRelease = request.YearOfRelease,
-            Genre = request.Genre.ToList()
-        };
+        return Movie.Create(
+            id,
+            request.Title,
+            request.YearOfRelease,
+            request.Genres.ToList()
+        );
     }
 
     public static Movie ToMovie(this UpdateMovieRequest request, Guid id)
     {
-        return new Movie
-        {
-            Id = id,
-            Title = request.Title,
-            YearOfRelease = request.YearOfRelease,
-            Genre = request.Genre.ToList()
-        };
+        return Movie.Create(
+            id,
+            request.Title,
+            request.YearOfRelease,
+            request.Genre.ToList()
+        );
     }
 
     public static MovieResponse ToResponse(this Movie movie)
@@ -33,7 +31,8 @@ public static class MovieMappings
             movie.Id,
             movie.Title,
             movie.YearOfRelease,
-            movie.Genre
+            movie.Genres,
+            movie.Slug ?? string.Empty
         );
     }
 

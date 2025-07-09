@@ -4,4 +4,5 @@ public record MovieResponse(
     Guid Id,
     string Title,
     short YearOfRelease,
-    IEnumerable<string> Genre);
+    IEnumerable<string> Genre,
+    string Slug);

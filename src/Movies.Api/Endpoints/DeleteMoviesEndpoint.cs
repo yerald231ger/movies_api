@@ -1,10 +1,12 @@
+using Movies.Application.Services;
+
 namespace Movies.Api.Endpoints;
 
 public static class DeleteMoviesEndpoint
 {
     public static void MapDeleteMovie(this IEndpointRouteBuilder app)
     {
-        app.MapDelete(MoviesRoutes.GetById, async (Guid id, IMovieRepository repository) =>
+        app.MapDelete(MoviesRoutes.Delete, async (Guid id, IMovieService repository, CancellationToken cancellationToken) =>
             {
                 var movie = await repository.GetByIdAsync(id);
                 if (movie is null)
