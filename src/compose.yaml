@@ -9,6 +9,15 @@ services:
       - "9000:8080"
       - "9060:8081"
 
+  movies.auth:
+    image: movies.auth
+    build:
+      context: .
+      dockerfile: Movies.Auth/Dockerfile
+    ports:
+      - "9001:8080"
+      - "9061:8081"
+
   movies.db:
     image: postgres
     container_name: movies.db

@@ -1,5 +1,5 @@
 ### Test JWT Token Generation
-POST https://localhost:7289/token
+POST http://localhost:9001/token
 Content-Type: application/json
 
 {
