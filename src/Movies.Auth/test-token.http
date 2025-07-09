@@ -1,0 +1,10 @@
+### Test JWT Token Generation
+POST https://localhost:7289/token
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "password"
+}
+
+###
