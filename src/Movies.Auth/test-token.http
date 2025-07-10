@@ -1,10 +1,17 @@
 ### Test JWT Token Generation
-POST http://localhost:9001/token
+POST http://localhost:5131/token
 Content-Type: application/json
 
 {
     "username": "admin",
-    "password": "password"
+    "password": "admin"
 }
 
-###
+### Test JWT Token Validation
+POST http://localhost:5131/token
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "user"
+}
