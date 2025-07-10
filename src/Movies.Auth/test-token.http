@@ -1,5 +1,5 @@
 ### Test JWT Token Generation
-POST http://localhost:5131/token
+POST http://localhost:9001/token
 Content-Type: application/json
 
 {
@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ### Test JWT Token Validation
-POST http://localhost:5131/token
+POST http://localhost:9001/token
 Content-Type: application/json
 
 {

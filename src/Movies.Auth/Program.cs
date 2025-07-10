@@ -2,8 +2,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Options;
-using Movies.Auth.Models;
 using Movies.Contracts;
 using Movies.Auth.Options;
 using Movies.Auth.Repositories;
