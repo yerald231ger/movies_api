@@ -9,8 +9,10 @@ public partial class Movie
     public required short YearOfRelease { get; set; }
     public string Slug => GenerateSlug();
     public List<string> Genres { get; set; } = [];
+    public float? Rating { get; set; }
+    public int? UserRating { get; set; }
 
-    public static Movie Create(Guid id, string title, short yearOfRelease, List<string> genres)
+    public static Movie Create(Guid id, string title, short yearOfRelease, List<string> genres, Guid? createdByUserId = null)
     {
         var movie = new Movie
         {

@@ -1,6 +1,7 @@
 ### Create Movie
 POST http://localhost:5032/api/movies/b7422927-4a74-4be7-b227-6702db424230
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzUyMDk3NTgxLCJleHAiOjE3NTIxMDExODEsImlhdCI6MTc1MjA5NzU4MSwiaXNzIjoiTW92aWVzSXNzdWVyIiwiYXVkIjoiTW92aWVzQXVkaWVuY2UifQ.xYmaTBAZsprhPX-77qJXKfzBv61OzVwx8XKCy9JEyG0
 
 {
   "title": "Inception 2",
@@ -11,17 +12,21 @@ Content-Type: application/json
 ### Get All Movies
 GET http://localhost:5032/api/movies
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzUyMDk3NzczLCJleHAiOjE3NTIxMDEzNzMsImlhdCI6MTc1MjA5Nzc3MywiaXNzIjoiTW92aWVzSXNzdWVyIiwiYXVkIjoiTW92aWVzQXVkaWVuY2UifQ.Iho3uq2Im5RyFJoYFtzicHnqw-pNQgb3lr4fgTIj5VA
 
 ### Get Movie by ID
 GET http://localhost:5032/api/movies/b7422927-4a74-4be7-b227-6702db424230
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzUyMDk3NTgxLCJleHAiOjE3NTIxMDExODEsImlhdCI6MTc1MjA5NzU4MSwiaXNzIjoiTW92aWVzSXNzdWVyIiwiYXVkIjoiTW92aWVzQXVkaWVuY2UifQ.xYmaTBAZsprhPX-77qJXKfzBv61OzVwx8XKCy9JEyG0
 
 ### Get Movies by Slug
 GET http://localhost:5032/api/movies/inception-2-2013
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzUyMDk3NTgxLCJleHAiOjE3NTIxMDExODEsImlhdCI6MTc1MjA5NzU4MSwiaXNzIjoiTW92aWVzSXNzdWVyIiwiYXVkIjoiTW92aWVzQXVkaWVuY2UifQ.xYmaTBAZsprhPX-77qJXKfzBv61OzVwx8XKCy9JEyG0
 
 ### Update Movie
 PUT http://localhost:5032/api/movies/b7422927-4a74-4be7-b227-6702db424230
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzUyMDk3NTgxLCJleHAiOjE3NTIxMDExODEsImlhdCI6MTc1MjA5NzU4MSwiaXNzIjoiTW92aWVzSXNzdWVyIiwiYXVkIjoiTW92aWVzQXVkaWVuY2UifQ.xYmaTBAZsprhPX-77qJXKfzBv61OzVwx8XKCy9JEyG0
 
 {
   "title": "Inception 2 Updated",
@@ -32,3 +37,4 @@ Content-Type: application/json
 ### Delete Movie
 DELETE http://localhost:5032/api/movies/b7422927-4a74-4be7-b227-6702db424230
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzUyMDk3NTgxLCJleHAiOjE3NTIxMDExODEsImlhdCI6MTc1MjA5NzU4MSwiaXNzIjoiTW92aWVzSXNzdWVyIiwiYXVkIjoiTW92aWVzQXVkaWVuY2UifQ.xYmaTBAZsprhPX-77qJXKfzBv61OzVwx8XKCy9JEyG0

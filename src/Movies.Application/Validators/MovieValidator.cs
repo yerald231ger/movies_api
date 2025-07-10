@@ -41,7 +41,7 @@ public class MovieValidator : AbstractValidator<Movie>
         if (string.IsNullOrWhiteSpace(slug))
             return false;
 
-        var movie = await _movieRepository.GetBySlugAsync(slug, cancellationToken);
+        var movie = await _movieRepository.GetBySlugAsync(slug, cancellationToken: cancellationToken);
 
         if (movie is null)
             return true;

@@ -7,7 +7,7 @@ using Movies.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddEnvironmentVariables("ASPNETCORE_ENVIRONMENT");
+builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -24,13 +24,15 @@ app.MapPost("/token", (TokenRequest request) =>
         if (request.Username == "admin" && request.Password == "password")
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(JwtKey.Value);
+            var key = Encoding.UTF8.GetBytes(JwtParameters.Key);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity([
                     new Claim(ClaimTypes.Name, request.Username),
                     new Claim(ClaimTypes.Role, "Admin")
                 ]),
+                Issuer = JwtParameters.Issuer,
+                Audience = JwtParameters.Audience,
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)

@@ -1,4 +1,8 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Movies.Api;
+using Movies.Api.Auth;
+using Movies.Api.Endpoints.Movies;
 using Movies.Application;
 using Movies.Application.Data;
 using Movies.Contracts;
@@ -23,13 +27,26 @@ builder.Services.AddAuthentication(x =>
     x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
-        System.Text.Encoding.UTF8.GetBytes(JwtKey.Value)),
+            System.Text.Encoding.UTF8.GetBytes(JwtParameters.Key)),
         ValidateIssuerSigningKey = true,
         ValidateLifetime = true,
+        ValidIssuer = JwtParameters.Issuer,
+        ValidAudience = JwtParameters.Audience,
+        ValidateIssuer = true,
+        ValidateAudience = true
     };
 });
 
+builder.Services.AddAuthorization(x =>
+{
+    x.AddPolicy(AuthConstants.AdminPolicy, p => p.RequireClaim(ClaimTypes.Role, "Admin"));
+    x.AddPolicy(AuthConstants.UserPolicy, p => p.RequireClaim(ClaimTypes.Role, "User"));
+});
+
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 app.MapPostMovie();

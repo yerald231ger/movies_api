@@ -32,7 +32,9 @@ public static class MovieMappings
             movie.Title,
             movie.YearOfRelease,
             movie.Genres,
-            movie.Slug ?? string.Empty
+            movie.Slug,
+            movie.Rating,
+            movie.UserRating
         );
     }
 

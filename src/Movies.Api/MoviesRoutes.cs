@@ -9,4 +9,12 @@ internal static class MoviesRoutes
     public const string GetById = $"{Base}/{{idOrSlug}}";
     public const string Update = $"{Base}/{{id:guid}}";
     public const string Delete = $"{Base}/{{id:guid}}";
+    
+    public const string Rate = $"{Base}/{{id:guid}}/ratings";
+}
+
+internal static class RatingsRoutes
+{
+    public const string Base = $"{MoviesRoutes.Api}/ratings";
+    public const string GetUserRating = $"{Base}/me";
 }
