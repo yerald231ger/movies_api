@@ -74,7 +74,8 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
                                   SELECT m.*, round(avg(r.Rating), 1) as Rating, myr.Rating as UserRating
                                   FROM Movies m
                                   LEFT JOIN Ratings r ON m.Id = r.MovieId
-                                  LEFT JOIN Ratings myr ON m.Id = myr.MovieId AND myr.UserId = @UserId
+                                  LEFT JOIN Ratings myr ON m.Id = myr.MovieId 
+                                    AND myr.UserId = @UserId
                                   WHERE m.slug = @Slug
                                   GROUP BY m.Id, UserRating
                                   """,
@@ -108,7 +109,7 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
             LEFT JOIN Genres g on m.Id = g.MovieId
             LEFT JOIN Ratings r ON m.Id = r.MovieId
             LEFT JOIN Ratings myr ON m.Id = myr.MovieId AND myr.UserId = @UserId
-            GROUP BY m.Id
+            GROUP BY m.Id, myr.Rating
             """, new { UserId = userId }, cancellationToken: cancellationToken);
 
         var result = await connection.QueryAsync(commandDefinition);
@@ -119,7 +120,7 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
             Title = m.title,
             YearOfRelease = (short)m.yearofrelease,
             Genres = Enumerable.ToList(m.genres?.Split(',') ?? Array.Empty<string>()),
-            Rating = m.rating,
+            Rating = (float)m.rating,
             UserRating = m.userrating
         }).ToList();
 

@@ -36,7 +36,8 @@ app.MapPost("/token", async (TokenRequest request, IUserRepository userRepositor
             {
                 Subject = new ClaimsIdentity([
                     new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.Role, user.Role)
+                    new Claim(ClaimTypes.Role, user.Role),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id)
                 ]),
                 Issuer = JwtParameters.Issuer,
                 Audience = JwtParameters.Audience,

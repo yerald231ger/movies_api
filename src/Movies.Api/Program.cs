@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Movies.Api;
 using Movies.Api.Auth;
 using Movies.Api.Endpoints.Movies;
+using Movies.Api.Endpoints.Ratings;
 using Movies.Application;
 using Movies.Application.Data;
 using Movies.Contracts;
@@ -49,10 +49,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
+
 app.MapPostMovie();
 app.MapGetMovie();
 app.MapPutMovie();
 app.MapDeleteMovie();
+app.MapRateMovie();
+app.MapDeleteRating();
 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 await dbInitializer.InitializeAsync(connectionString);

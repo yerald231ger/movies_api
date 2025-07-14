@@ -10,7 +10,7 @@ internal static class MoviesRoutes
     public const string Update = $"{Base}/{{id:guid}}";
     public const string Delete = $"{Base}/{{id:guid}}";
     
-    public const string Rate = $"{Base}/{{id:guid}}/ratings";
+    public const string Rate = $"{Base}/{{movieId:guid}}/ratings";
 }
 
 internal static class RatingsRoutes

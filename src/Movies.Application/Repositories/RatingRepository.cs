@@ -44,4 +44,16 @@ public class RatingRepository(IDbConnectionFactory connectionFactory) : IRatingR
         return await connection.QuerySingleOrDefaultAsync<(float?, int?)>(query,
             new { MovieId = movieId, UserId = userId });
     }
+
+    public async Task<bool> DeleteRatingAsync(Guid movieId, Guid userId, CancellationToken cancellationToken = default)
+    {
+        using var connection = connectionFactory.CreateConnectionAsync(cancellationToken).Result;
+        const string query = """
+                             DELETE FROM Ratings 
+                             WHERE MovieId = @MovieId 
+                             AND UserId = @UserId
+                             """;
+        var affectedRows = await connection.ExecuteAsync(query, new { MovieId = movieId, UserId = userId });
+        return affectedRows > 0;
+    }
 }

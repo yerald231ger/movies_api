@@ -3,21 +3,21 @@ using Movies.Application.Services;
 
 namespace Movies.Api.Endpoints.Ratings;
 
-public static class RateMovieEndpoint
+public static class DeleteRatingEndpoint
 {
-    public static void MapRateMovie(this IEndpointRouteBuilder app)
+    public static void MapDeleteRating(this IEndpointRouteBuilder app)
     {
-        app.MapPost(MoviesRoutes.Rate, async ([FromRoute] Guid movieId, [FromBody] RateMovieRequest request, IRatingService ratingService,
+        app.MapDelete(MoviesRoutes.Rate, async ([FromRoute] Guid movieId, IRatingService ratingService,
                 HttpContext context, CancellationToken cancellationToken) =>
             {
                 var userId = context.User.GetUserId();
                 if (userId == null)
                     return Results.Unauthorized();
 
-                var success = await ratingService.RateMovieAsync(movieId, userId.Value, request.Rating, cancellationToken);
+                var success = await ratingService.DeleteRatingAsync(movieId, userId.Value, cancellationToken);
                 return !success ? Results.NotFound() : Results.Ok();
             })
-            .WithName("RateMovie")
+            .WithName("DeleteRating")
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .RequireAuthorization(AuthConstants.UserPolicy);
