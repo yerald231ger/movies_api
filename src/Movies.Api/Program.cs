@@ -56,6 +56,7 @@ app.MapPutMovie();
 app.MapDeleteMovie();
 app.MapRateMovie();
 app.MapDeleteRating();
+app.MapGetUserRatings();
 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 await dbInitializer.InitializeAsync(connectionString);

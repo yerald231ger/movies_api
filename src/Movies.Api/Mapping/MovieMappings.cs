@@ -43,4 +43,9 @@ public static class MovieMappings
         var e = new MoviesResponse(movies.Select(ToResponse));
         return e;
     }
+
+    public static IEnumerable<MovieRatingResponse> ToResponse(this IEnumerable<MovieRating> ratings)
+    {
+        return ratings.Select(rating => new MovieRatingResponse(rating.MovieId, rating.Slug, rating.Rating));
+    }
 }
