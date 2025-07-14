@@ -48,4 +48,19 @@ public static class MovieMappings
     {
         return ratings.Select(rating => new MovieRatingResponse(rating.MovieId, rating.Slug, rating.Rating));
     }
+    
+    public static GetAllMoviesOptions ToOptions(this GetAllMoviesRequest request)
+    {
+        return new GetAllMoviesOptions
+        { 
+            Title = request.Title,
+            Year = request.Year
+        };
+    }
+    
+    public static GetAllMoviesOptions WithUser(this GetAllMoviesOptions options, Guid? userId)
+    {
+        options.UserId = userId;
+        return options;
+    }
 }
