@@ -1,16 +1,16 @@
 ### Create Movie
-POST http://localhost:5032/api/movies/b7422927-4a74-4be7-b227-6702db424230
+POST http://localhost:5032/api/movies/aa422927-4a74-4be7-b227-6702db424232
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmFtZWlkIjoiYjhhMzRhZWYtOGM0Zi00NzM1LTgwMTQtOTcwYzA5MTMwMGU2IiwibmJmIjoxNzUyMzYxMDY4LCJleHAiOjE3NTIzNjQ2NjgsImlhdCI6MTc1MjM2MTA2OCwiaXNzIjoiTW92aWVzSXNzdWVyIiwiYXVkIjoiTW92aWVzQXVkaWVuY2UifQ.hC42to_luPYMHpuTliPB52Y3lf-6rsyA_wu_uTfSPRM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmFtZWlkIjoiYjhhMzRhZWYtOGM0Zi00NzM1LTgwMTQtOTcwYzA5MTMwMGU2IiwibmJmIjoxNzUyNTQwNzM2LCJleHAiOjE3NTI1NDQzMzYsImlhdCI6MTc1MjU0MDczNiwiaXNzIjoiTW92aWVzSXNzdWVyIiwiYXVkIjoiTW92aWVzQXVkaWVuY2UifQ.Whv_TknZChDK0D0Mpluky_NdUws-M1RL4xKiC9gXFBw
 
 {
-  "title": "Inception 2",
-  "yearOfRelease": 2018,
-  "genres": ["Action", "Sci-Fi"]
+  "title": "Transformers: The Last Knight",
+  "yearOfRelease": 2017,
+  "genres": ["Animated", "Sci-Fi"]
 }
 
 ### Get All Movies
-GET http://localhost:5032/api/movies
+GET http://localhost:5032/api/movies?year=2017
 Content-Type: application/json
 
 ### Get All Movies With User Ratings

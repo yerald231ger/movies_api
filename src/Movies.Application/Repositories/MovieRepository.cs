@@ -95,23 +95,43 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
         return movie;
     }
 
-    public async Task<IEnumerable<Movie>> GetAllAsync(Guid? userId = null,
+    public async Task<IEnumerable<Movie>> GetAllAsync(GetAllMoviesOptions options,
         CancellationToken cancellationToken = default)
     {
         using var connection = await dbConnectionFactory.CreateConnectionAsync(cancellationToken);
-        var commandDefinition = new CommandDefinition(
-            """
+        
+        var conditions = new List<string>();
+        var parameters = new DynamicParameters();
+        parameters.Add("UserId", options.UserId);
+
+        if (!string.IsNullOrWhiteSpace(options.Title))
+        {
+            conditions.Add("m.Title ILIKE @Title");
+            parameters.Add("Title", $"%{options.Title}%");
+        }
+
+        if (options.Year.HasValue)
+        {
+            conditions.Add("m.YearOfRelease = @Year");
+            parameters.Add("Year", options.Year.Value);
+        }
+
+        var whereClause = conditions.Any() ? $"WHERE {string.Join(" AND ", conditions)}" : "";
+
+        var sql = $"""
             SELECT m.*, 
                 string_agg(distinct g.Name, ', ') AS Genres,
-                round(avg(r.Rating), 1) as Rating,
-                myr.Rating as UserRating
+                COALESCE(round(avg(r.Rating), 1), 0) as Rating,
+                COALESCE(myr.Rating, 0) as UserRating
             FROM Movies m 
             LEFT JOIN Genres g on m.Id = g.MovieId
             LEFT JOIN Ratings r ON m.Id = r.MovieId
             LEFT JOIN Ratings myr ON m.Id = myr.MovieId AND myr.UserId = @UserId
+            {whereClause}
             GROUP BY m.Id, myr.Rating
-            """, new { UserId = userId }, cancellationToken: cancellationToken);
+            """;
 
+        var commandDefinition = new CommandDefinition(sql, parameters, cancellationToken: cancellationToken);
         var result = await connection.QueryAsync(commandDefinition);
 
         var movies = result.Select(m => new Movie

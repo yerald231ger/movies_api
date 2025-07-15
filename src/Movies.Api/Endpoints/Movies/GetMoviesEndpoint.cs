@@ -22,13 +22,13 @@ public static class GetMoviesEndpoint
             .Produces(StatusCodes.Status404NotFound);
 
         app.MapGet(MoviesRoutes.GetAll,
-                async ([FromQuery] GetAllMoviesRequest request, IMovieService repository, HttpContext context,
+                async (GetAllMoviesRequest request, IMovieService repository, HttpContext context,
                     CancellationToken cancellationToken) =>
                 {
                     var userId = context.User.GetUserId();
                     var options = request.ToOptions()
                         .WithUser(userId);
-                    var movies = await repository.GetAllAsync(userId, cancellationToken);
+                    var movies = await repository.GetAllAsync(options, cancellationToken);
                     return Results.Ok(movies.ToResponse());
                 })
             .WithName("GetMovies")
