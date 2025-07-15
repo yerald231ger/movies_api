@@ -27,7 +27,7 @@ public class MovieService(
         return movieRepository.GetBySlugAsync(slug, userId, cancellationToken);
     }
 
-    public async Task<IEnumerable<Movie>> GetAllAsync(GetAllMoviesOptions options, CancellationToken cancellationToken = default)
+    public async Task<PagedResult<Movie>> GetAllAsync(GetAllMoviesOptions options, CancellationToken cancellationToken = default)
     {
         await getAllMoviesOptionsValidator.ValidateAndThrowAsync(options, cancellationToken);
         return await movieRepository.GetAllAsync(options, cancellationToken);

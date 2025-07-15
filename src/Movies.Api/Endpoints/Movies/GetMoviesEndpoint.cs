@@ -1,5 +1,8 @@
 using Movies.Api.Auth;
+using Movies.Api.Mapping;
 using Movies.Application.Services;
+using Movies.Contracts.Requests;
+using Movies.Contracts.Responses;
 
 namespace Movies.Api.Endpoints.Movies;
 
@@ -28,11 +31,11 @@ public static class GetMoviesEndpoint
                     var userId = context.User.GetUserId();
                     var options = request.ToOptions()
                         .WithUser(userId);
-                    var movies = await repository.GetAllAsync(options, cancellationToken);
-                    return Results.Ok(movies.ToResponse());
+                    var pagedResult = await repository.GetAllAsync(options, cancellationToken);
+                    return Results.Ok(pagedResult.ToPagedResponse());
                 })
             .WithName("GetMovies")
-            .Produces<IEnumerable<Movie>>()
+            .Produces<PagedResponse<MovieResponse>>()
             .Produces(StatusCodes.Status404NotFound);
     }
 }

@@ -95,7 +95,7 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
         return movie;
     }
 
-    public async Task<IEnumerable<Movie>> GetAllAsync(GetAllMoviesOptions options,
+    public async Task<PagedResult<Movie>> GetAllAsync(GetAllMoviesOptions options,
         CancellationToken cancellationToken = default)
     {
         using var connection = await dbConnectionFactory.CreateConnectionAsync(cancellationToken);
@@ -118,12 +118,26 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
 
         var whereClause = conditions.Any() ? $"WHERE {string.Join(" AND ", conditions)}" : "";
 
+        // Get total count
+        var countSql = $"""
+            SELECT COUNT(DISTINCT m.Id)
+            FROM Movies m 
+            LEFT JOIN Genres g on m.Id = g.MovieId
+            LEFT JOIN Ratings r ON m.Id = r.MovieId
+            LEFT JOIN Ratings myr ON m.Id = myr.MovieId AND myr.UserId = @UserId
+            {whereClause}
+            """;
+
+        var totalCount = await connection.ExecuteScalarAsync<int>(
+            new CommandDefinition(countSql, parameters, cancellationToken: cancellationToken));
+
+        // Get paginated data
         var orderByClause = GetOrderByClause(options.SortBy);
         var offset = (options.Page - 1) * options.PageSize;
         parameters.Add("Offset", offset);
         parameters.Add("PageSize", options.PageSize);
 
-        var sql = $"""
+        var dataSql = $"""
             SELECT m.*, 
                 string_agg(distinct g.Name, ', ') AS Genres,
                 COALESCE(round(avg(r.Rating), 1), 0) as Rating,
@@ -138,8 +152,8 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
             LIMIT @PageSize OFFSET @Offset
             """;
 
-        var commandDefinition = new CommandDefinition(sql, parameters, cancellationToken: cancellationToken);
-        var result = await connection.QueryAsync(commandDefinition);
+        var result = await connection.QueryAsync(
+            new CommandDefinition(dataSql, parameters, cancellationToken: cancellationToken));
 
         var movies = result.Select(m => new Movie
         {
@@ -151,7 +165,13 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
             UserRating = m.userrating
         }).ToList();
 
-        return movies;
+        return new PagedResult<Movie>
+        {
+            Items = movies,
+            TotalCount = totalCount,
+            Page = options.Page,
+            PageSize = options.PageSize
+        };
     }
 
     private static string GetOrderByClause(string? sortBy)

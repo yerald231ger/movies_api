@@ -10,7 +10,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 }
 
 ### Get All Movies
-GET http://localhost:5032/api/movies?sortBy=-year&page=2&pageSize=2
+GET http://localhost:5032/api/movies?sortBy=-year
 Content-Type: application/json
 
 ### Get All Movies With User Ratings

@@ -1,5 +1,6 @@
 using Movies.Application.Models;
 using Movies.Contracts.Requests;
+using Movies.Contracts.Responses;
 
 namespace Movies.Api.Mapping;
 
@@ -38,12 +39,6 @@ public static class MovieMappings
         );
     }
 
-    public static MoviesResponse ToResponse(this IEnumerable<Movie> movies)
-    {
-        var e = new MoviesResponse(movies.Select(ToResponse));
-        return e;
-    }
-
     public static IEnumerable<MovieRatingResponse> ToResponse(this IEnumerable<MovieRating> ratings)
     {
         return ratings.Select(rating => new MovieRatingResponse(rating.MovieId, rating.Slug, rating.Rating));
@@ -65,5 +60,17 @@ public static class MovieMappings
     {
         options.UserId = userId;
         return options;
+    }
+    
+    public static PagedResponse<MovieResponse> ToPagedResponse(this PagedResult<Movie> pagedResult)
+    {
+        return new PagedResponse<MovieResponse>
+        {
+            Items = pagedResult.Items.Select(ToResponse),
+            PageSize = pagedResult.PageSize,
+            Page = pagedResult.Page,
+            Total = pagedResult.TotalCount,
+            HasNextPage = pagedResult.HasNextPage
+        };
     }
 }
