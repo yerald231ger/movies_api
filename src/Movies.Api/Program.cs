@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Movies.Api.Auth;
-using Movies.Api.Endpoints.Movies;
-using Movies.Api.Endpoints.Ratings;
+using Movies.Api.Endpoints.V1.Movies;
+using Movies.Api.Endpoints.V1.Ratings;
 using Movies.Application;
 using Movies.Application.Data;
 using Movies.Contracts;

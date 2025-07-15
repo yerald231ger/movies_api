@@ -1,13 +1,13 @@
 using Movies.Api.Auth;
 using Movies.Application.Services;
 
-namespace Movies.Api.Endpoints.Ratings;
+namespace Movies.Api.Endpoints.V1.Ratings;
 
 public static class GetUserRatingsEndpoint
 {
     public static void MapGetUserRatings(this IEndpointRouteBuilder app)
     {
-        app.MapGet(ApiRoutes.RatingsRoutes.GetUserRating, async (IRatingService ratingService, HttpContext context, CancellationToken cancellationToken) =>
+        app.MapGet(ApiRoutes.V1.RatingsRoutes.GetUserRating, async (IRatingService ratingService, HttpContext context, CancellationToken cancellationToken) =>
             {
                 var userId = context.User.GetUserId();
                 if (userId == null)

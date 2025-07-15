@@ -1,13 +1,13 @@
 using Movies.Api.Auth;
 using Movies.Application.Services;
 
-namespace Movies.Api.Endpoints.Ratings;
+namespace Movies.Api.Endpoints.V1.Ratings;
 
 public static class DeleteRatingEndpoint
 {
     public static void MapDeleteRating(this IEndpointRouteBuilder app)
     {
-        app.MapDelete(ApiRoutes.RatingsRoutes.DeleteRating, async ([FromRoute] Guid movieId, IRatingService ratingService,
+        app.MapDelete(ApiRoutes.V1.RatingsRoutes.DeleteRating, async ([FromRoute] Guid movieId, IRatingService ratingService,
                 HttpContext context, CancellationToken cancellationToken) =>
             {
                 var userId = context.User.GetUserId();

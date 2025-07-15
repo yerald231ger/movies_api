@@ -1,13 +1,13 @@
 using Movies.Api.Auth;
 using Movies.Application.Services;
 
-namespace Movies.Api.Endpoints.Movies;
+namespace Movies.Api.Endpoints.V1.Movies;
 
 public static class UpdateMoviesEndpoint
 {
     public static void MapPutMovie(this IEndpointRouteBuilder app)
     {
-        app.MapPut(ApiRoutes.MoviesRoutes.Update,
+        app.MapPut(ApiRoutes.V1.MoviesRoutes.Update,
                 async ([FromRoute] Guid id, [FromBody] UpdateMovieRequest updateMovie, IMovieService repository, HttpContext context, CancellationToken cancellationToken) =>
                 {
                     var userId = context.User.GetUserId();

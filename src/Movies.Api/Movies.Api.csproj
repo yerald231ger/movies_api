@@ -25,7 +25,6 @@
 
     <ItemGroup>
       <Folder Include="Endpoints\V1\" />
-      <Folder Include="Endpoints\V2\" />
     </ItemGroup>
 
 </Project>

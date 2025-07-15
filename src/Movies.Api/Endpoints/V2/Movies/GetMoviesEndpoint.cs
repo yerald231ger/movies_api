@@ -1,16 +1,13 @@
 using Movies.Api.Auth;
-using Movies.Api.Mapping;
 using Movies.Application.Services;
-using Movies.Contracts.Requests;
-using Movies.Contracts.Responses;
 
-namespace Movies.Api.Endpoints.V1.Movies;
+namespace Movies.Api.Endpoints.V2.Movies;
 
 public static class GetMoviesEndpoint
 {
     public static void MapGetMovie(this IEndpointRouteBuilder app)
     {
-        app.MapGet(ApiRoutes.V1.MoviesRoutes.GetById,
+        app.MapGet(ApiRoutes.V2.MoviesRoutes.GetById,
                 async ([FromRoute] string idOrSlug, IMovieService repository, HttpContext context,
                     LinkGenerator linkGenerator,
                     CancellationToken cancellationToken) =>
@@ -49,7 +46,7 @@ public static class GetMoviesEndpoint
             .Produces<MovieResponse>()
             .Produces(StatusCodes.Status404NotFound);
 
-        app.MapGet(ApiRoutes.V1.MoviesRoutes.GetAll,
+        app.MapGet(ApiRoutes.V2.MoviesRoutes.GetAll,
                 async (GetAllMoviesRequest request, IMovieService repository, HttpContext context,
                     CancellationToken cancellationToken) =>
                 {

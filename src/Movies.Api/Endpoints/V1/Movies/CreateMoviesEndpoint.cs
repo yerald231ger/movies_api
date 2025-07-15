@@ -1,7 +1,7 @@
 using Movies.Api.Auth;
 using Movies.Application.Services;
 
-namespace Movies.Api.Endpoints.Movies;
+namespace Movies.Api.Endpoints.V1.Movies;
 
 public static class CreateMoviesEndpoint
 {
