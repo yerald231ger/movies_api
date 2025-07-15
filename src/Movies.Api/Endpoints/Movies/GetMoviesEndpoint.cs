@@ -12,13 +12,38 @@ public static class GetMoviesEndpoint
     {
         app.MapGet(MoviesRoutes.GetById,
                 async ([FromRoute] string idOrSlug, IMovieService repository, HttpContext context,
+                    LinkGenerator linkGenerator,
                     CancellationToken cancellationToken) =>
                 {
                     var userId = context.User.GetUserId();
                     var movie = Guid.TryParse(idOrSlug, out var id)
                         ? await repository.GetByIdAsync(id, userId, cancellationToken)
                         : await repository.GetBySlugAsync(idOrSlug, userId, cancellationToken);
-                    return movie is null ? Results.NotFound() : Results.Ok(movie.ToResponse());
+
+                    if (movie is null)
+                    {
+                        return Results.NotFound();
+                    }
+
+                    var movieResponse = movie.ToResponse();
+
+                    var getMovieUrl = linkGenerator.GetPathByName(
+                        "GetMovie",
+                        new { idOrSlug = movieResponse.Id });
+                    
+                    var putMovieUrl = linkGenerator.GetPathByName(
+                        "UpdateMovie",
+                        new { id = movieResponse.Id });
+                    
+                    var deleteMovieUrl = linkGenerator.GetPathByName(
+                        "DeleteMovie",
+                        new { id = movieResponse.Id });
+                    
+                    movieResponse.Links.Add(new Link("self", getMovieUrl!, "GET"));
+                    movieResponse.Links.Add(new Link("update", putMovieUrl!, "PUT"));
+                    movieResponse.Links.Add(new Link("delete", deleteMovieUrl!, "DELETE"));
+                    
+                    return Results.Ok(movieResponse);
                 })
             .WithName("GetMovie")
             .Produces<Movie>()

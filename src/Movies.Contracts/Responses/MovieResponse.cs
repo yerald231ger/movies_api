@@ -7,4 +7,4 @@ public record MovieResponse(
     IEnumerable<string> Genre,
     string Slug,
     float? Rating,
-    int? UserRating);
+    int? UserRating) : HalResponse;
