@@ -118,6 +118,11 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
 
         var whereClause = conditions.Any() ? $"WHERE {string.Join(" AND ", conditions)}" : "";
 
+        var orderByClause = GetOrderByClause(options.SortBy);
+        var offset = (options.Page - 1) * options.PageSize;
+        parameters.Add("Offset", offset);
+        parameters.Add("PageSize", options.PageSize);
+
         var sql = $"""
             SELECT m.*, 
                 string_agg(distinct g.Name, ', ') AS Genres,
@@ -129,6 +134,8 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
             LEFT JOIN Ratings myr ON m.Id = myr.MovieId AND myr.UserId = @UserId
             {whereClause}
             GROUP BY m.Id, myr.Rating
+            {orderByClause}
+            LIMIT @PageSize OFFSET @Offset
             """;
 
         var commandDefinition = new CommandDefinition(sql, parameters, cancellationToken: cancellationToken);
@@ -147,6 +154,37 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
         return movies;
     }
 
+    private static string GetOrderByClause(string? sortBy)
+    {
+        if (string.IsNullOrWhiteSpace(sortBy))
+            return "ORDER BY m.Title";
+
+        var direction = "ASC";
+        var field = sortBy;
+
+        if (sortBy.StartsWith('+'))
+        {
+            direction = "ASC";
+            field = sortBy[1..];
+        }
+        else if (sortBy.StartsWith('-'))
+        {
+            direction = "DESC";
+            field = sortBy[1..];
+        }
+
+        var column = field.ToLower() switch
+        {
+            "title" => "m.Title",
+            "year" => "m.YearOfRelease",
+            "rating" => "Rating",
+            "userrating" => "UserRating",
+            _ => "m.Title"
+        };
+
+        return $"ORDER BY {column} {direction}";
+    }
+
     public async Task<bool> UpdateAsync(Movie movie, CancellationToken cancellationToken = default)
     {
         using var connection = await dbConnectionFactory.CreateConnectionAsync(cancellationToken);
@@ -154,7 +192,7 @@ public class MovieRepository(IDbConnectionFactory dbConnectionFactory, ILogger<M
         try
         {
             const string query =
-                "UPDATE Movies SET Title = @Title, Slug = @Slug, YearOfRelease = @YearOfRelease, UpdatedByUserId = @UpdatedByUserId, UpdatedAt = @UpdatedAt WHERE Id = @Id";
+                "UPDATE Movies SET Title = @Title, Slug = @Slug, YearOfRelease = @YearOfRelease WHERE Id = @Id";
             var result = await connection.ExecuteAsync(new CommandDefinition(query, movie, transaction,
                 cancellationToken: cancellationToken));
 

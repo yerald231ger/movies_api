@@ -1,16 +1,16 @@
 ### Create Movie
-POST http://localhost:5032/api/movies/aa422927-4a74-4be7-b227-6702db424232
+POST http://localhost:5032/api/movies/a4422927-4a74-4be7-b227-6702db424232
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmFtZWlkIjoiYjhhMzRhZWYtOGM0Zi00NzM1LTgwMTQtOTcwYzA5MTMwMGU2IiwibmJmIjoxNzUyNTQwNzM2LCJleHAiOjE3NTI1NDQzMzYsImlhdCI6MTc1MjU0MDczNiwiaXNzIjoiTW92aWVzSXNzdWVyIiwiYXVkIjoiTW92aWVzQXVkaWVuY2UifQ.Whv_TknZChDK0D0Mpluky_NdUws-M1RL4xKiC9gXFBw
 
 {
-  "title": "Transformers: The Last Knight",
-  "yearOfRelease": 2017,
-  "genres": ["Animated", "Sci-Fi"]
+  "title": "Sweeney Todd",
+  "yearOfRelease": 2007,
+  "genres": ["Shooter", "Sci-Fi", "Action"]
 }
 
 ### Get All Movies
-GET http://localhost:5032/api/movies?year=2017
+GET http://localhost:5032/api/movies?sortBy=-year&page=2&pageSize=2
 Content-Type: application/json
 
 ### Get All Movies With User Ratings

@@ -54,7 +54,10 @@ public static class MovieMappings
         return new GetAllMoviesOptions
         { 
             Title = request.Title,
-            Year = request.Year
+            Year = request.Year,
+            SortBy = request.SortBy,
+            Page = request.Page,
+            PageSize = request.PageSize
         };
     }
     
