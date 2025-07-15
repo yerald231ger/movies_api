@@ -1,20 +1,32 @@
 namespace Movies.Api;
 
-internal static class MoviesRoutes
+public static class ApiRoutes
 {
-    public const string Api = "api";
-    public const string Base = $"{Api}/movies";
-    public const string GetAll = Base;
-    public const string Create = $"{Base}/{{id:guid}}";
-    public const string GetById = $"{Base}/{{idOrSlug}}";
-    public const string Update = $"{Base}/{{id:guid}}";
-    public const string Delete = $"{Base}/{{id:guid}}";
+    public const string ApiBase = "api";
     
-    public const string Rate = $"{Base}/{{movieId:guid}}/ratings";
+    public static class V1
+    {
+        public const string VersionBase = $"{ApiBase}/v1";
+        
+        internal static class MoviesRoutes
+        {
+            public const string Base = $"{VersionBase}/movies";
+            public const string GetAll = Base;
+            public const string Create = $"{Base}/{{id:guid}}";
+            public const string GetById = $"{Base}/{{idOrSlug}}";
+            public const string Update = $"{Base}/{{id:guid}}";
+            public const string Delete = $"{Base}/{{id:guid}}";
+    
+        }
+
+        internal static class RatingsRoutes
+        {
+            public const string Base = $"{VersionBase}/ratings";
+            public const string Rate = $"{MoviesRoutes.Base}/{{movieId:guid}}/ratings";
+            public const string DeleteRating = $"{Base}/{{movieId:guid}}";
+            public const string GetUserRating = $"{Base}/me";
+        }
+    }
+    
 }
 
-internal static class RatingsRoutes
-{
-    public const string Base = $"{MoviesRoutes.Api}/ratings";
-    public const string GetUserRating = $"{Base}/me";
-}

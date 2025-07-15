@@ -7,7 +7,7 @@ public static class CreateMoviesEndpoint
 {
     public static void MapPostMovie(this IEndpointRouteBuilder app)
     {
-        app.MapPost(MoviesRoutes.Create,
+        app.MapPost(ApiRoutes.V1.MoviesRoutes.Create,
                 async ([FromRoute] Guid id, [FromBody] CreateMovieRequest createMovie, IMovieService repository, HttpContext context, CancellationToken cancellationToken) =>
                 {
                     var userId = context.User.GetUserId();

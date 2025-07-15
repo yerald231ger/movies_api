@@ -10,7 +10,7 @@ public static class GetMoviesEndpoint
 {
     public static void MapGetMovie(this IEndpointRouteBuilder app)
     {
-        app.MapGet(MoviesRoutes.GetById,
+        app.MapGet(ApiRoutes.MoviesRoutes.GetById,
                 async ([FromRoute] string idOrSlug, IMovieService repository, HttpContext context,
                     LinkGenerator linkGenerator,
                     CancellationToken cancellationToken) =>
@@ -49,7 +49,7 @@ public static class GetMoviesEndpoint
             .Produces<Movie>()
             .Produces(StatusCodes.Status404NotFound);
 
-        app.MapGet(MoviesRoutes.GetAll,
+        app.MapGet(ApiRoutes.MoviesRoutes.GetAll,
                 async (GetAllMoviesRequest request, IMovieService repository, HttpContext context,
                     CancellationToken cancellationToken) =>
                 {

@@ -7,7 +7,7 @@ public static class GetUserRatingsEndpoint
 {
     public static void MapGetUserRatings(this IEndpointRouteBuilder app)
     {
-        app.MapGet(RatingsRoutes.GetUserRating, async (IRatingService ratingService, HttpContext context, CancellationToken cancellationToken) =>
+        app.MapGet(ApiRoutes.RatingsRoutes.GetUserRating, async (IRatingService ratingService, HttpContext context, CancellationToken cancellationToken) =>
             {
                 var userId = context.User.GetUserId();
                 if (userId == null)

@@ -7,7 +7,7 @@ public static class UpdateMoviesEndpoint
 {
     public static void MapPutMovie(this IEndpointRouteBuilder app)
     {
-        app.MapPut(MoviesRoutes.Update,
+        app.MapPut(ApiRoutes.MoviesRoutes.Update,
                 async ([FromRoute] Guid id, [FromBody] UpdateMovieRequest updateMovie, IMovieService repository, HttpContext context, CancellationToken cancellationToken) =>
                 {
                     var userId = context.User.GetUserId();
