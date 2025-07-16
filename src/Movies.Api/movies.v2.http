@@ -1,17 +1,6 @@
 
 
 ### Get All Movies
-GET http://localhost:5032/api/v2/movies?sortBy=-year
+GET http://localhost:5032/api/movies
 Content-Type: application/json
-
-### Get All Movies With User Ratings
-GET http://localhost:5032/api/v2/movies
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InVzZXIiLCJyb2xlIjoiVXNlciIsIm5hbWVpZCI6IjQyYmFlOTcwLTNmMjgtNDk0Ni04MDg2LWIzOGNhZDc3YzQ0NCIsIm5iZiI6MTc1MjUxMTI0NSwiZXhwIjoxNzUyNTE0ODQ1LCJpYXQiOjE3NTI1MTEyNDUsImlzcyI6Ik1vdmllc0lzc3VlciIsImF1ZCI6Ik1vdmllc0F1ZGllbmNlIn0.5e2Y-UK-FxlKdYtqE4kdkVI-R19Ui4p3Vo58bCj9eS8
-
-### Get Movie by ID
-GET http://localhost:5032/api/v2/movies/b7422927-4a74-4be7-b227-6702db424230
-Content-Type: application/json
-
-### Get Movies by Slug
-GET http://localhost:5032/api/v2/movies/inception-2-2018
+x-ms-version: 2.0

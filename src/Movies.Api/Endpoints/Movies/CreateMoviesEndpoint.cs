@@ -1,18 +1,23 @@
+using Microsoft.AspNetCore.OutputCaching;
 using Movies.Api.Auth;
+using Movies.Api.Constants;
 using Movies.Application.Services;
 
-namespace Movies.Api.Endpoints.V1.Movies;
+namespace Movies.Api.Endpoints.Movies;
 
 public static class CreateMoviesEndpoint
 {
     public static void MapPostMovie(this IEndpointRouteBuilder app)
     {
-        app.MapPost(ApiRoutes.V1.MoviesRoutes.Create,
-                async ([FromRoute] Guid id, [FromBody] CreateMovieRequest createMovie, IMovieService repository, HttpContext context, CancellationToken cancellationToken) =>
+        app.MapPost(ApiRoutes.MoviesRoutes.Create,
+                async ([FromRoute] Guid id, [FromBody] CreateMovieRequest createMovie, 
+                    IOutputCacheStore outputCacheStore,
+                    IMovieService repository, HttpContext context, CancellationToken cancellationToken) =>
                 {
                     var userId = context.User.GetUserId();
                     var movie = createMovie.ToMovie(id);
                     var result = await repository.CreateAsync(movie, userId, cancellationToken);
+                    await outputCacheStore.EvictByTagAsync(Caching.GetAllMoviesTag, cancellationToken);
                     return result
                         ? Results.CreatedAtRoute("GetMovie", new { idOrSlug = movie.Id }, movie.ToResponse())
                         : Results.BadRequest();
@@ -22,6 +27,7 @@ public static class CreateMoviesEndpoint
             .WithSummary("Creates a new movie")
             .WithDescription("Creates a new movie with the provided details.")
             .WithTags("Movies")
-            .RequireAuthorization(AuthConstants.AdminPolicy);
+            .RequireAuthorization(AuthConstants.AdminPolicy)
+            .HasApiVersion(1, 0);
     }
 }

@@ -1,16 +1,14 @@
 using Movies.Api.Auth;
-using Movies.Api.Mapping;
+using Movies.Api.Constants;
 using Movies.Application.Services;
-using Movies.Contracts.Requests;
-using Movies.Contracts.Responses;
 
-namespace Movies.Api.Endpoints.V1.Movies;
+namespace Movies.Api.Endpoints.Movies;
 
 public static class GetMoviesEndpoint
 {
     public static void MapGetMovie(this IEndpointRouteBuilder app)
     {
-        app.MapGet(ApiRoutes.V1.MoviesRoutes.GetById,
+        app.MapGet(ApiRoutes.MoviesRoutes.GetById,
                 async ([FromRoute] string idOrSlug, IMovieService repository, HttpContext context,
                     LinkGenerator linkGenerator,
                     CancellationToken cancellationToken) =>
@@ -30,26 +28,26 @@ public static class GetMoviesEndpoint
                     var getMovieUrl = linkGenerator.GetPathByName(
                         "GetMovie",
                         new { idOrSlug = movieResponse.Id });
-                    
+
                     var putMovieUrl = linkGenerator.GetPathByName(
                         "UpdateMovie",
                         new { id = movieResponse.Id });
-                    
+
                     var deleteMovieUrl = linkGenerator.GetPathByName(
                         "DeleteMovie",
                         new { id = movieResponse.Id });
-                    
+
                     movieResponse.Links.Add(new Link("self", getMovieUrl!, "GET"));
                     movieResponse.Links.Add(new Link("update", putMovieUrl!, "PUT"));
                     movieResponse.Links.Add(new Link("delete", deleteMovieUrl!, "DELETE"));
-                    
+
                     return Results.Ok(movieResponse);
                 })
             .WithName("GetMovie")
             .Produces<MovieResponse>()
             .Produces(StatusCodes.Status404NotFound);
 
-        app.MapGet(ApiRoutes.V1.MoviesRoutes.GetAll,
+        app.MapGet(ApiRoutes.MoviesRoutes.GetAll,
                 async (GetAllMoviesRequest request, IMovieService repository, HttpContext context,
                     CancellationToken cancellationToken) =>
                 {
@@ -61,6 +59,25 @@ public static class GetMoviesEndpoint
                 })
             .WithName("GetMovies")
             .Produces<PagedResponse<MovieResponse>>()
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .HasApiVersion(1, 0)
+            .CacheOutput(Caching.MovieCachePolicy);
+        
+
+        app.MapGet(ApiRoutes.MoviesRoutes.GetAll,
+                async (GetAllMoviesRequest request, IMovieService repository, HttpContext context,
+                    CancellationToken cancellationToken) =>
+                {
+                    var userId = context.User.GetUserId();
+                    var options = request.ToOptions()
+                        .WithUser(userId);
+                    var pagedResult = await repository.GetAllAsync(options, cancellationToken);
+                    return Results.Ok(pagedResult.ToPagedResponse());
+                })
+            .WithName("GetMovies.v2")
+            .Produces<PagedResponse<MovieResponse>>()
+            .Produces(StatusCodes.Status404NotFound)
+            .HasApiVersion(2, 0)
+            .CacheOutput(Caching.MovieCachePolicy);
     }
 }
