@@ -2,7 +2,6 @@ using System.Security.Claims;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
-using Movies.Api;
 using Movies.Api.Auth;
 using Movies.Api.Constants;
 using Movies.Api.Endpoints.Movies;
@@ -11,7 +10,6 @@ using Movies.Api.Health;
 using Movies.Api.Swagger;
 using Movies.Application;
 using Movies.Application.Data;
-using Movies.Application.Services;
 using Movies.Contracts;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -40,11 +38,13 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddAuthorization(x =>
 {
+    x.AddPolicy(AuthConstants.AdminUserPolicyName,
+        p => p.AddRequirements(new AdminAuthRequirement()));
     x.AddPolicy(AuthConstants.AdminPolicy, p => p.RequireClaim(ClaimTypes.Role, "Admin"));
     x.AddPolicy(AuthConstants.UserPolicy, p => p.RequireClaim(ClaimTypes.Role, "User"));
 });
 
-// builder.Services.AddScoped<ApiKeyAuthFilter>();
+builder.Services.AddScoped<ApiKeyAuthFilter>();
 
 builder.Services.AddApiVersioning(x =>
 {

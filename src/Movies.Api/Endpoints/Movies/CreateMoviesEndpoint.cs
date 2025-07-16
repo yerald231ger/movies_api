@@ -27,7 +27,7 @@ public static class CreateMoviesEndpoint
             .WithSummary("Creates a new movie")
             .WithDescription("Creates a new movie with the provided details.")
             .WithTags("Movies")
-            .RequireAuthorization(AuthConstants.AdminPolicy)
+            .RequireAuthorization(AuthConstants.AdminUserPolicyName)
             .HasApiVersion(1, 0);
     }
 }

@@ -41,7 +41,7 @@ app.MapPost("/token", async (TokenRequest request, IUserRepository userRepositor
                 ]),
                 Issuer = JwtParameters.Issuer,
                 Audience = JwtParameters.Audience,
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)
             };
